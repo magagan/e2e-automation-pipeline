@@ -1,11 +1,16 @@
-#!groovy
 node {
-    stage('Git checkout') { // for display purposes
-        git 'https://github.com/BushnevYuri/e2e-automation-pipeline.git'
-    }
-    stage('Smoke') {
+   def mvnHome
+   stage('Preparation') { // for display purposes
+      // Get some code from a GitHub repository
+      git 'git@github.com:magagan/e2e-automation-pipeline.git'
+      // Get the Maven tool.
+      // ** NOTE: This 'M3' Maven tool must be configured
+      // **       in the global configuration.           
+      mvnHome = tool 'localMaven'
+   }
+   stage('Smoke') {
         try {
-            sh "mvn clean verify -Dtags='type:Smoke'"
+            sh "'${mvnHome}/bin/mvn' clean verify -Dtags='type:Smoke'"
         } catch (err) {
 
         } finally {
@@ -41,8 +46,9 @@ node {
                     reportName: "UI tests report"
             ])
         }
-    }
+    }           
     stage('Results') {
         junit '**/target/failsafe-reports/*.xml'
     }
+
 }
