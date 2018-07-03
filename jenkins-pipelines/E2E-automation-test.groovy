@@ -2,7 +2,7 @@ node {
    def mvnHome
    stage('Preparation') { // for display purposes
       // Get some code from a GitHub repository
-      git 'git@github.com:magagan/e2e-automation-pipeline.git'
+      git 'https://github.com/magagan/e2e-automation-pipeline'
       // Get the Maven tool.
       // ** NOTE: This 'M3' Maven tool must be configured
       // **       in the global configuration.           
